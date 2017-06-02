@@ -9,6 +9,7 @@ set ignorecase smartcase    " make searches case-insensitive, unless they
 set cursorline              " Highlight current line
 set number                  " Enable line numbers.
 set tabstop=4                   " Tab is # spaces
+set expandtab
 set wrap                        " wrap lines
 set textwidth=80
 
