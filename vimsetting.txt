@@ -1,0 +1,33 @@
+set nocompatible
+syntax on
+set spelllang=en_us         " spell checking
+set encoding=utf-8 nobomb   " BOM often causes trouble, UTF-8 is awsum.
+set hlsearch                " highlight searches
+set incsearch               " show the `best match so far' astyped
+set ignorecase smartcase    " make searches case-insensitive, unless they
+                            "   contain upper-case letters
+set cursorline              " Highlight current line
+set number                  " Enable line numbers.
+set tabstop=4                   " Tab is # spaces
+set wrap                        " wrap lines
+set textwidth=80
+
+function! InsertTabWrapper()
+      let col = col('.') - 1
+      if !col || getline('.')[col - 1] !~ '\k'
+        return "\<tab>"
+      else
+        return "\<c-p>"
+      endif
+    endfunction
+    inoremap <tab> <c-r>=InsertTabWrapper()<cr>
+
+" Commenting blocks of code.
+autocmd FileType c,cpp,java,scala let b:comment_leader = '// '
+autocmd FileType sh,ruby,python   let b:comment_leader = '# '
+autocmd FileType conf,fstab       let b:comment_leader = '# '
+autocmd FileType tex              let b:comment_leader = '% '
+autocmd FileType mail             let b:comment_leader = '> '
+autocmd FileType vim              let b:comment_leader = '" '
+noremap <silent> ,cc :<C-B>silent <C-E>s/^/<C-R>=escape(b:comment_leader,'\/')<CR>/<CR>:nohlsearch<CR>
+noremap <silent> ,cu :<C-B>silent <C-E>s/^\V<C-R>=escape(b:comment_leader,'\/')<CR>//e<CR>:nohlsearch<CR>
